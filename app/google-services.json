@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "717810378600",
+    "firebase_url": "https://flocnews.firebaseio.com",
+    "project_id": "flocnews",
+    "storage_bucket": "flocnews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717810378600:android:f0863ac89d98746db358dd",
+        "android_client_info": {
+          "package_name": "com.karasm.flocnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717810378600-7ngb86ige6474vuvl68glo7te8ilhkfo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.karasm.flocnews",
+            "certificate_hash": "99ca1aec6ad4cd1c911d0dee9c7558959cf303db"
+          }
+        },
+        {
+          "client_id": "717810378600-rtgr560eqtrac51ecdubhdr4i684174t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIcw9_hMykxPRFpYjYsgJpuH73YjqdYPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717810378600-rtgr560eqtrac51ecdubhdr4i684174t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

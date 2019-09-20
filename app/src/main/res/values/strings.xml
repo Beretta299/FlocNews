@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">FlocNews</string>
+    <string name="news_api_key">e25a0637a43e452e99650a086201c26c</string>
+    <string name="category_predicate">Category:</string>
+    <string name="language_predicate">Language:</string>
+    <string name="login_hint">Login</string>
+    <string name="pass_hint">Password</string>
+    <array name="categories">
+        <item>all</item>
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </array>
+    <array name="languages">
+        <item>All</item>
+        <item>ar</item>
+        <item>de</item>
+        <item>en</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>he</item>
+        <item>it</item>
+        <item>nl</item>
+        <item>no</item>
+        <item>pt</item>
+        <item>ru</item>
+        <item>se</item>
+        <item>ud</item>
+        <item>zh</item>
+    </array>
+</resources>
