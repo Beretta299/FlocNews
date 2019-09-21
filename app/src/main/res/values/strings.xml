@@ -5,6 +5,20 @@
     <string name="language_predicate">Language:</string>
     <string name="login_hint">Login</string>
     <string name="pass_hint">Password</string>
+    <string name="menu_news">News</string>
+    <string name="menu_sources">Sources</string>
+    <string name="menu_weather">Weather</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_exit">Exit</string>
+    <string name="not_registered_yet">REGISTER</string>
+    <string name="rep_pass_hint">Repeat password</string>
+    <string name="register_button">Register</string>
+    <string name="phone_hint">Phone</string>
+    <string name="last_name_hint">Last name</string>
+    <string name="name_hint">Name</string>
+    <string name="confirm_button">Confirm</string>
+
+
     <array name="categories">
         <item>all</item>
         <item>business</item>
@@ -31,5 +45,23 @@
         <item>se</item>
         <item>ud</item>
         <item>zh</item>
+    </array>
+    <array name="Ukraine">
+        <item>Kyiv</item>
+        <item>Kharkiv</item>
+        <item>Dnipro</item>
+        <item>Lviv</item>
+    </array>
+    <array name="Poland">
+        <item>Warsaw</item>
+        <item>Krakow</item>
+        <item>Lodz</item>
+        <item>Poznan</item>
+    </array>
+    <array name="Germany">
+        <item>Berlin</item>
+        <item>Munich</item>
+        <item>Cologne</item>
+        <item>Hamburg</item>
     </array>
 </resources>

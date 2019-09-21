@@ -10,6 +10,10 @@
     <style name="BlueTextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/blueRosemary</item>
         <item name="android:textSize">12sp</item>
-    </style>
 
+    </style>
+    <style name = "NoActionBar" parent = "@android:style/Theme.Holo.Light">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
 </resources>

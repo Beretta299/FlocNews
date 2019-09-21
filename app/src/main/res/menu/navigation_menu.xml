@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/news"
+        android:icon="@drawable/ic_news"
+        android:title="@string/menu_news" />
+    <item android:id="@+id/sources"
+        android:icon="@drawable/ic_sources"
+        android:title="@string/menu_sources" />
+    <item android:id="@+id/weather"
+        android:icon="@drawable/ic_weather"
+        android:title="@string/menu_weather" />
+
+    <item android:id="@+id/profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/menu_profile" />
+    <item android:id="@+id/exit"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/menu_exit" />
+
+</menu>
