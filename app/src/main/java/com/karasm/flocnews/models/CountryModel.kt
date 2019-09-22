@@ -1,3 +1,3 @@
 package com.karasm.flocnews.models
 
-data class CountryModel(val countryName:String="")
+data class CountryModel(var keyValue:String="",var countryName:String="")

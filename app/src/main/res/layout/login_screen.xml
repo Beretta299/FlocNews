@@ -40,49 +40,57 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLoginLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="75dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
         android:hint="@string/login_hint"
-        app:hintTextAppearance="@style/BlueTextInputLayout"
         android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/inputGuideLine">
+        app:layout_constraintTop_toTopOf="@id/inputGuideLine">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputLogin"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp" />
+
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPassLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="75dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
         android:hint="@string/pass_hint"
-        app:hintTextAppearance="@style/BlueTextInputLayout"
         android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLoginLayout">
+        app:layout_constraintTop_toBottomOf="@id/textInputLoginLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputPass"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button

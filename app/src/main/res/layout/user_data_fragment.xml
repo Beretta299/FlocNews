@@ -1,45 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftWidthHelper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightWidthHelper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputNameLayout"
+        android:id="@+id/textInputOldPassLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
-        android:hint="@string/name_hint"
+        android:hint="@string/change_pass_hint"
         android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputName"
+            android:id="@+id/textInputOldPass"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputNewPassLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="bottom"
+        android:hint="@string/new_pass_hint"
+        android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/BlueTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputOldPassLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputNewPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbox_border"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputRepeatNewPassLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="bottom"
+        android:hint="@string/repeat_new_pass_hint"
+        android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/BlueTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputNewPassLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputRepeatNewPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbox_border"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:gravity="bottom"
+        android:hint="@string/name_hint"
+        android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
+        app:hintTextAppearance="@style/BlueTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputRepeatNewPassLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inputbox_border"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLastNameLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
         android:hint="@string/last_name_hint"
         android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,21 +147,25 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputLastName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPhoneLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="65dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
         android:hint="@string/phone_hint"
         android:textColorHint="@color/blueRosemary"
+        app:errorEnabled="true"
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,25 +174,96 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputPhone"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp" />
+            android:paddingLeft="7dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/dateOfBirth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:text="11.01.2013"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/dateOfBirthTitle"
+        app:layout_constraintEnd_toEndOf="@id/rightWidthHelper"
+        app:layout_constraintStart_toEndOf="@+id/dateOfBirthTitle" />
+
+    <TextView
+        android:id="@+id/dateOfBirthTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:text="@string/date_of_birth"
+        android:textColor="@color/blueRosemary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@id/leftWidthHelper"
+        app:layout_constraintTop_toBottomOf="@+id/textInputPhoneLayout" />
+
+    <Spinner
+        android:id="@+id/countrySpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@id/rightWidthHelper"
+        app:layout_constraintStart_toEndOf="@+id/countryHint"
+        app:layout_constraintTop_toBottomOf="@+id/dateOfBirth" />
+
+    <TextView
+        android:id="@+id/countryHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:text="@string/contry_hint"
+        android:textColor="@color/blueRosemary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@id/leftWidthHelper"
+        app:layout_constraintTop_toTopOf="@+id/countrySpinner" />
+
+    <TextView
+        android:id="@+id/cityHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_condensed_bold"
+        android:text="@string/city_hint"
+        android:textColor="@color/blueRosemary"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@id/leftWidthHelper"
+        app:layout_constraintTop_toTopOf="@+id/citySpinner" />
+
+    <Button
+        android:id="@+id/confirmRegistration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/roboto_condensed_bold"
         android:text="@string/confirm_button"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputPhoneLayout" />
+        app:layout_constraintEnd_toEndOf="@id/rightWidthHelper"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/leftWidthHelper"
+        app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
+
+    <Spinner
+        android:id="@+id/citySpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@id/rightWidthHelper"
+        app:layout_constraintStart_toEndOf="@id/cityHint"
+        app:layout_constraintTop_toBottomOf="@+id/countrySpinner" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

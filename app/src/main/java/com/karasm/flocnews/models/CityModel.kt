@@ -1,3 +1,3 @@
 package com.karasm.flocnews.models
 
-data class CityModel (val countryId:String="",val cityName:String="")
+data class CityModel (var keyValue:String="",val countryId:String="",val cityName:String="")

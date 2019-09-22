@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -67,7 +68,19 @@ class LoginFragment:Fragment(R.layout.login_screen),View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0!!.id){
             logButton.id->{
-                mViewModel.loginUser(loginField.text.toString(),passField.text.toString())
+                mViewModel.loginUser(loginField.text.toString(),passField.text.toString()).observe(this,
+                    Observer {
+                        if(it){
+                            fragmentManager!!
+                                .beginTransaction()
+                                .replace(R.id.fragment_container,NewsFragment.newInstance())
+                                .commit()
+                        }else{
+                            loginLayout.error=getString(R.string.email_login_error)
+                            passLayout.error=getString(R.string.email_login_error)
+                        }
+                    })
+
             }
             regButton.id->{
                 fragmentManager!!

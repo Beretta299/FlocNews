@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.core.view.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,16 +16,12 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.sources_screen.*
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.karasm.flocnews.fragments.LoginFragment
-import com.karasm.flocnews.fragments.NewsFragment
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.widget.ToggleButton
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.karasm.flocnews.fragments.RegisterFragment
 import com.karasm.flocnews.models.CountryModel
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
@@ -36,36 +29,42 @@ import com.google.firebase.database.ValueEventListener
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.MenuItem
+import android.widget.*
+import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
+import com.karasm.flocnews.fragments.*
 import com.karasm.flocnews.models.CityModel
+import com.karasm.flocnews.viewmodels.MainActivityViewModel
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(){
-
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var mDrawerLayout:DrawerLayout
     lateinit var mDrawerToggle: ActionBarDrawerToggle
-    lateinit var databaseReference:DatabaseReference
-    lateinit var databaseCityReference:DatabaseReference
-
-    lateinit var countryList:List<CountryModel>
-    lateinit var cityList:List<CityModel>
+    lateinit var navigationView:NavigationView
+    lateinit var mViewModel:MainActivityViewModel
+//    lateinit var databaseReference:DatabaseReference
+//    lateinit var databaseCityReference:DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_screen)
 
+        val actionBar=supportActionBar
+        actionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
+        actionBar.setDisplayHomeAsUpEnabled(true)
         mDrawerLayout=findViewById(R.id.activity_main)
+        navigationView=findViewById(R.id.nv)
         mDrawerToggle= ActionBarDrawerToggle(this,mDrawerLayout,R.string.app_name,R.string.app_name)
+        mViewModel=ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container,LoginFragment.newInstance())
-            .commit()
-
-        setDrawerState(false)
-
-        databaseReference=FirebaseDatabase.getInstance().getReference("countries")
-        databaseCityReference=FirebaseDatabase.getInstance().getReference("cities")
+        navigationView.setNavigationItemSelectedListener(this)
+        setDrawerState(true)
+        setStartFragment()
     }
+
 
     fun setDrawerState(isEnabled: Boolean) {
         if (isEnabled) {
@@ -79,19 +78,19 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun getCountriesList(){
-        databaseReference.addListenerForSingleValueEvent(object:ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                for(dataSnapshot:DataSnapshot in p0.children){
-                    val countryModel:CountryModel=dataSnapshot.getValue(CountryModel::class.java)!!
-
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
+//    fun getCountriesList(){
+//        databaseReference.addListenerForSingleValueEvent(object:ValueEventListener{
+//            override fun onDataChange(p0: DataSnapshot) {
+//                for(dataSnapshot:DataSnapshot in p0.children){
+//                    val countryModel:CountryModel=dataSnapshot.getValue(CountryModel::class.java)!!
+//
+//                }
+//            }
+//            override fun onCancelled(p0: DatabaseError) {
+//
+//            }
+//        })
+//    }
 
 //    fun insertCountries(){
 //        var id=databaseReference.push().key.toString()
@@ -131,4 +130,64 @@ class MainActivity : AppCompatActivity(){
 //                }
 //            })
 //    }
+
+
+private fun setStartFragment(){
+mViewModel.isUserLogged().observe(this,androidx.lifecycle.Observer {
+    if(it){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container,NewsFragment.newInstance())
+            .commit()
+    }else{
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container,UserDataFragment.newInstance())
+            .commit()
+    }
+})
+}
+
+
+
+override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    when(item.itemId) {
+        R.id.news-> {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,NewsFragment.newInstance())
+                .commit()
+        }
+        R.id.sources-> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, SourcesFragment.newInstance())
+                    .commit()
+        }
+        R.id.weather-> {
+//                supportFragmentManager.beginTransaction()
+//                    .replace(R.id.fragment_container,WeatherFragment.newInstance())
+//                    .commit()
+        }
+        R.id.profile-> {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,UserDataFragment.newInstance())
+                .commit()
+        }
+        R.id.exit-> {
+                mViewModel.logoutUser()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,LoginFragment.newInstance())
+                    .commit()
+        }
+    }
+    mDrawerLayout.closeDrawer(GravityCompat.START)
+    return false
+}
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home->{
+                mDrawerLayout.openDrawer(GravityCompat.START)
+            }
+        }
+        return true
+    }
 }
