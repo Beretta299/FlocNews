@@ -1,6 +1,7 @@
 package com.karasm.flocnews.viewmodels
 
 import android.app.Application
+import android.service.autofill.UserData
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
@@ -22,6 +23,8 @@ class UserDataViewModel(private val app:Application):AndroidViewModel(app) {
     private var firebaseAuth:FirebaseAuth=FirebaseAuth.getInstance()
     private var countryData: MutableLiveData<List<CountryModel>> = MutableLiveData()
     private var cityData: MutableLiveData<List<CityModel>> = MutableLiveData()
+    private var userData: MutableLiveData<UserModel> = MutableLiveData()
+    private var isUserExists: MutableLiveData<Boolean> = MutableLiveData()
     private var registeredData:MutableLiveData<Boolean> = MutableLiveData()
 
     fun getCountries():LiveData<List<CountryModel>>{
@@ -45,6 +48,7 @@ class UserDataViewModel(private val app:Application):AndroidViewModel(app) {
         return countryData
     }
 
+
     fun saveUserData(user:UserModel):LiveData<Boolean>{
         userReference.child(firebaseAuth.currentUser!!.uid).setValue(user)
             .addOnSuccessListener {
@@ -54,7 +58,32 @@ class UserDataViewModel(private val app:Application):AndroidViewModel(app) {
     }
 
 
+    fun isUserExists():LiveData<Boolean>{
+        userReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
+            override fun onDataChange(p0: DataSnapshot) {
+                isUserExists.value = p0.exists()
+            }
+        })
+        return isUserExists
+    }
+
+    fun getUserData():LiveData<UserModel>{
+        userReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val userModel:UserModel=p0.getValue(UserModel::class.java)!!
+                userData.value=userModel
+            }
+        })
+        return userData
+    }
 
     fun getCities(key:String):LiveData<List<CityModel>>{
         val query:Query=cityReference.orderByChild("countryId").equalTo(key)

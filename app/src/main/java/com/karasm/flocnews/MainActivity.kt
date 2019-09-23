@@ -140,7 +140,7 @@ mViewModel.isUserLogged().observe(this,androidx.lifecycle.Observer {
             .commit()
     }else{
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container,UserDataFragment.newInstance())
+            .replace(R.id.fragment_container,LoginFragment.newInstance())
             .commit()
     }
 })

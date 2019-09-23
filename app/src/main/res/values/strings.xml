@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">FlocNews</string>
     <string name="news_api_key">e25a0637a43e452e99650a086201c26c</string>
-    <string name="category_predicate">Category:</string>
-    <string name="language_predicate">Language:</string>
+    <string name="category_predicate">Category: %1$s</string>
+    <string name="language_predicate">Language: %1$s</string>
     <string name="login_hint">Login</string>
     <string name="pass_hint">Password</string>
     <string name="menu_news">News</string>

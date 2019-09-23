@@ -34,6 +34,9 @@ class NewsViewModel(val app:Application) : AndroidViewModel(app) {
         return mNewsListData!!
     }
 
+
+
+
     fun isSourcesExists(){
         sourcesReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object:ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -67,7 +70,7 @@ class NewsViewModel(val app:Application) : AndroidViewModel(app) {
                     }
 
                 }
-                val sourceModel=SourceDBModel(false,stringBuilder.toString())
+                val sourceModel=SourceDBModel(stringBuilder.toString())
                 sourcesReference.child(firebaseAuth.uid!!).setValue(sourceModel)
 
                 Log.d(UtilsClass.RESULT_TAG,stringBuilder.toString())

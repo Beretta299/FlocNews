@@ -1,9 +1,13 @@
 package com.karasm.flocnews.fragments
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -44,8 +48,8 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     lateinit var lastName:TextInputEditText
     lateinit var phone:TextInputEditText
     lateinit var registrationConfirm:Button
-    lateinit var countryList:List<CountryModel>
-    lateinit var cityList:List<CityModel>
+    var countryList:List<CountryModel>?=null
+    var cityList:List<CityModel>?=null
 
     lateinit var adapter:CountrySpjnnerAdapter
     lateinit var cityAdapter:CitySpinnerAdapter
@@ -65,6 +69,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         initListeners()
         getCountries()
     }
+
     private fun initViews(view:View){
         countrySpinner=view.findViewById(R.id.countrySpinner)
         citySpinner=view.findViewById(R.id.citySpinner)
@@ -91,6 +96,50 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         datePicker.show()
     }
 
+    fun isUserExists(){
+        mViewModel.isUserExists().observe(this, Observer {
+            exists->
+            if(exists){
+                getUserData()
+            }
+        })
+    }
+
+    fun getUserData(){
+        mViewModel.getUserData().observe(this, Observer {
+            model->
+            setUserData(model!!)
+        })
+    }
+
+    private fun setUserData(model: UserModel) {
+        firstName.text=Editable.Factory.getInstance().newEditable(model.firstName)
+        lastName.text=Editable.Factory.getInstance().newEditable(model.lastName)
+        phone.text=Editable.Factory.getInstance().newEditable(model.phoneNumber)
+        dateOfBirthField.text=model.birthDate
+        setNeededCountry(model.countryId)
+        setNeededCity(model.cityId)
+    }
+
+    private fun setNeededCountry(countryId: String) {
+        for((i,country) in countryList!!.withIndex()){
+           if(country.keyValue==countryId){
+               countrySpinner.setSelection(i)
+               break
+           }
+        }
+    }
+
+    private fun setNeededCity(cityId:String){
+        for((i,city) in cityList!!.withIndex()){
+            if(city.keyValue==cityId){
+                citySpinner.setSelection(i)
+                break
+            }
+        }
+    }
+
+
     private fun getCountries(){
         mViewModel.getCountries().observe(this, Observer{
             countryList=it
@@ -103,12 +152,15 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         countrySpinner.adapter=adapter
     }
 
-    fun getCities(position: Int){
+    fun getCities(position: Int,state:Boolean){
         val cModel:CountryModel=adapter.getItem(position) as CountryModel
         mViewModel.getCities(cModel.keyValue).observe(this, Observer {
             cityList=it
             cityAdapter= CitySpinnerAdapter(context!!,it)
             citySpinner.adapter=cityAdapter
+            if(state){
+                isUserExists()
+            }
         })
     }
 
@@ -120,7 +172,8 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
         when(p0!!.id){
             countrySpinner.id->{
-                getCities(position)
+                Log.d(UtilsClass.RESULT_TAG,"Here we are")
+                getCities(position,false)
             }
         }
 
@@ -137,7 +190,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     }
 
     private fun registerUser(){
-        val user=UserModel(firstName.text.toString(),lastName.text.toString(),phone.text.toString(),dateOfBirthField.text.toString(),countryList[countrySpinner.selectedItemPosition].keyValue,cityList[citySpinner.selectedItemPosition].keyValue)
+        val user=UserModel(firstName.text.toString(),lastName.text.toString(),phone.text.toString(),dateOfBirthField.text.toString(),cityList!![citySpinner.selectedItemPosition].keyValue,countryList!![countrySpinner.selectedItemPosition].keyValue)
         mViewModel.saveUserData(user).observe(this, Observer {
             fragmentManager!!.beginTransaction()
                 .replace(R.id.fragment_container,NewsFragment.newInstance())

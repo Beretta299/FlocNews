@@ -15,13 +15,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
+import com.karasm.flocnews.adapters.ArticleFragment
 import com.karasm.flocnews.adapters.NewsAdapter
+import com.karasm.flocnews.interfaces.iArticleNavigation
+import com.karasm.flocnews.interfaces.iDialogReadyCallback
+import com.karasm.flocnews.interfaces.iNewsListener
+import com.karasm.flocnews.models.NewsModel
 import com.karasm.flocnews.models.NewsNetModel
 import com.karasm.flocnews.viewmodels.NewsViewModel
 
 
 
-class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefreshListener{
+class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefreshListener,
+    iNewsListener {
+
     override fun onRefresh() {
         getNews()
     }
@@ -29,7 +36,7 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
     lateinit var mViewModel:NewsViewModel
     lateinit var rView:RecyclerView
     lateinit var swipeRefresh:SwipeRefreshLayout
-
+    lateinit var adapter:NewsAdapter
 
 
     companion object{
@@ -46,15 +53,20 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        rView=view.findViewById(R.id.rView)
-        swipeRefresh=view.findViewById(R.id.swipeRefresh)
-        swipeRefresh.setOnRefreshListener(this)
-
-
+        initViews(view)
+        initListeners()
         initDataObserving()
         getNews()
+        swipeRefresh.isRefreshing=true
+    }
+
+    private fun initListeners() {
+        swipeRefresh.setOnRefreshListener(this)
+    }
+
+    private fun initViews(view: View) {
+        rView=view.findViewById(R.id.rView)
+        swipeRefresh=view.findViewById(R.id.swipeRefresh)
     }
 
     fun initDataObserving(){
@@ -71,12 +83,43 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
 
     private fun initRecyclerView(list:List<NewsNetModel>){
         swipeRefresh.isRefreshing=false
-        val adapter= NewsAdapter(context!!,list)
+        adapter= NewsAdapter(context!!,list,this)
         val linearLayoutManager=LinearLayoutManager(context!!)
         rView.layoutManager=linearLayoutManager
         rView.adapter=adapter
     }
 
+    override fun onItemClick(newsModel: NewsNetModel,position:Int) {
+        Log.d(UtilsClass.RESULT_TAG,newsModel.title)
+        val dialog:ArticleFragment=ArticleFragment.newInstance()
+        dialog.show(fragmentManager!!,NewsFragment::class.java.simpleName)
+        dialog.setCallback(object:iDialogReadyCallback{
+            override fun dialogReady() {
+                dialog.setArticle(newsModel)
+                dialog.setCurrentPosition(position)
+                if(dialog.getCurrentPosition()==0) dialog.hidePrevButton() else if((dialog.getCurrentPosition()+1>=adapter.list.size)) dialog.hideNextButton() else dialog.showAllButtons()
+            }
+        })
+        dialog.setNavCallback(object:iArticleNavigation{
+            override fun nextArticle() {
+                if((dialog.getCurrentPosition()+1)<adapter.list.size){
+                dialog.setCurrentPosition(dialog.getCurrentPosition()+1)
+                dialog.setArticle(adapter.list[dialog.getCurrentPosition()])
+                    if(dialog.getCurrentPosition()==0) dialog.hidePrevButton() else if((dialog.getCurrentPosition()+1>=adapter.list.size)) dialog.hideNextButton() else dialog.showAllButtons()
+                }
+            }
+
+            override fun previousArticle() {
+                if((dialog.getCurrentPosition()-1)>=0){
+                    dialog.setCurrentPosition(dialog.getCurrentPosition()-1)
+                    dialog.setArticle(adapter.list[dialog.getCurrentPosition()])
+                    if(dialog.getCurrentPosition()==0) dialog.hidePrevButton() else if((dialog.getCurrentPosition()+1>=adapter.list.size)) dialog.hideNextButton() else dialog.showAllButtons()
+                }
+            }
+
+        })
+
+    }
 
 
 
