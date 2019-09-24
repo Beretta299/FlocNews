@@ -1,4 +1,4 @@
-package com.karasm.flocnews.adapters
+package com.karasm.flocnews.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
 import com.karasm.flocnews.interfaces.iArticleNavigation
@@ -72,7 +71,7 @@ class ArticleFragment:DialogFragment(),View.OnClickListener {
     }
 
     companion object{
-        fun newInstance():ArticleFragment{
+        fun newInstance(): ArticleFragment {
             val fragment= ArticleFragment()
             return fragment
         }

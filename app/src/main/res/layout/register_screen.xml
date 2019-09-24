@@ -12,9 +12,9 @@
         app:layout_constraintGuide_percent="0.4" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLoginLayout"
+        android:id="@+id/textInputEmailLayout"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
@@ -24,26 +24,26 @@
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline">
+        app:layout_constraintTop_toBottomOf="@+id/guideline">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputLogin"
+            android:id="@+id/textInputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
             android:paddingLeft="7dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="7dp"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputPassLayout"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
         android:hint="@string/pass_hint"
@@ -52,7 +52,8 @@
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLoginLayout">
+        app:layout_constraintTop_toBottomOf="@id/textInputEmailLayout"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputPass"
@@ -60,27 +61,30 @@
             android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+
+            android:inputType="textPassword"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="7dp"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputRepPassLayout"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="40dp"
         android:gravity="bottom"
-        android:hint="@string/rep_pass_hint"
+        android:hint="@string/pass_hint"
         android:textColorHint="@color/blueRosemary"
         app:errorEnabled="true"
         app:hintTextAppearance="@style/BlueTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputPassLayout">
+        app:layout_constraintTop_toBottomOf="@id/textInputPassLayout"
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputRepPass"
@@ -88,9 +92,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/inputbox_border"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:paddingLeft="7dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="7dp"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -115,26 +115,32 @@
 
                 <TextView
                     android:id="@+id/articleAuthor"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto_condensed_bold"
                     android:text="TextView"
+                    android:textAlignment="viewEnd"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/articleNext"
                     app:layout_constraintEnd_toEndOf="@+id/articleText"
-                    app:layout_constraintTop_toBottomOf="@+id/articleText" />
+                    app:layout_constraintStart_toEndOf="@+id/articleDate"
+                    app:layout_constraintTop_toBottomOf="@+id/articleText"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/articleDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/roboto_condensed_bold"
                     android:lineSpacingExtra="18sp"
                     android:text="TextView"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/articleAuthor"
                     app:layout_constraintStart_toStartOf="@+id/articleText"
                     app:layout_constraintTop_toBottomOf="@+id/articleText" />
 
@@ -142,6 +148,7 @@
                     android:id="@+id/articlePrev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="24dp"
                     android:clickable="true"
@@ -151,13 +158,17 @@
                     android:textColor="@color/blueRosemary"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/articleDate"
+                    app:layout_constraintEnd_toStartOf="@+id/articleNext"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/articleDate" />
 
                 <TextView
                     android:id="@+id/articleNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:clickable="true"
                     android:fontFamily="@font/roboto_condensed_bold"
                     android:text="NEXT ARTICLE"
@@ -165,7 +176,10 @@
                     android:textColor="@color/blueRosemary"
                     android:textSize="24sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/articlePrev"
-                    app:layout_constraintEnd_toEndOf="@+id/articleAuthor" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toEndOf="@+id/articlePrev" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

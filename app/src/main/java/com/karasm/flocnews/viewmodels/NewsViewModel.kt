@@ -21,13 +21,13 @@ import io.reactivex.schedulers.Schedulers
 import java.lang.StringBuilder
 
 class NewsViewModel(val app:Application) : AndroidViewModel(app) {
-    private final val COUNT_OF_SOURCES_START:Int=5
-    private var mNewsListData:MutableLiveData<List<NewsNetModel>>?=null
+    private val COUNT_OF_SOURCES_START:Int=5
+    private var mNewsListData:MutableLiveData<List<NewsNetModel>?>?=null
     val firebaseAuth:FirebaseAuth=FirebaseAuth.getInstance()
     var sourcesReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("sources")
     var disposeBag=CompositeDisposable()
 
-    fun getNewsData():MutableLiveData<List<NewsNetModel>>{
+    fun getNewsData():MutableLiveData<List<NewsNetModel>?>{
         if(mNewsListData==null){
             mNewsListData= MutableLiveData()
         }
@@ -45,10 +45,9 @@ class NewsViewModel(val app:Application) : AndroidViewModel(app) {
 
             override fun onDataChange(p0: DataSnapshot) {
                 if(!p0.exists()){
-                    Log.d(UtilsClass.RESULT_TAG,"Exists")
                     uploadSources()
                 }else{
-                    Log.d(UtilsClass.RESULT_TAG,"Not exists")
+                    loadNews()
                 }
             }
         })
@@ -72,37 +71,40 @@ class NewsViewModel(val app:Application) : AndroidViewModel(app) {
                 }
                 val sourceModel=SourceDBModel(stringBuilder.toString())
                 sourcesReference.child(firebaseAuth.uid!!).setValue(sourceModel)
-
-                Log.d(UtilsClass.RESULT_TAG,stringBuilder.toString())
+                loadNews()
             },{
 
             })
         disposeBag.add(disposable)
     }
 
+    fun getNews(){
+        isSourcesExists()
+    }
 
 
 
     fun loadNews(){
-        isSourcesExists()
         sourcesReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 val sources:SourceDBModel=p0.getValue(SourceDBModel::class.java)!!
-                Log.d(UtilsClass.RESULT_TAG,sources.sourceId)
+                if(sources.sourceId=="") {
+                    mNewsListData!!.value=null
+                }else{
                 val disposable=NewsRepositoryProvider.provideNewsRepository()
                     .getNews(app.resources.getString(R.string.news_api_key),sources.sourceId,"","")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                             res->
-                        Log.d(UtilsClass.RESULT_TAG,"${res.code()}")
                         mNewsListData!!.value=res.body()!!.articles
                     },{
-                        Log.d(UtilsClass.RESULT_TAG,it.localizedMessage);
+                        Log.d(UtilsClass.RESULT_TAG,it.localizedMessage!!)
                     })
                 disposeBag.add(disposable)
+                }
             }
         })
     }

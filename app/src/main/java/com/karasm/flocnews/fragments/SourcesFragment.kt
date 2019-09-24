@@ -9,17 +9,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
 import com.karasm.flocnews.adapters.SourcesAdapter
 import com.karasm.flocnews.interfaces.iSourcesInterfaces
+import com.karasm.flocnews.models.ServerSourceModel
 import com.karasm.flocnews.viewmodels.SourcesViewModel
 
-class SourcesFragment:Fragment(R.layout.sources_screen),iSourcesInterfaces, View.OnClickListener {
+class SourcesFragment:Fragment(R.layout.sources_screen),iSourcesInterfaces, View.OnClickListener,SwipeRefreshLayout.OnRefreshListener {
 
     lateinit var mViewModel:SourcesViewModel
     lateinit var rView:RecyclerView
     lateinit var adapter:SourcesAdapter
+    lateinit var swipeRefresh:SwipeRefreshLayout
     companion object{
         fun newInstance():SourcesFragment{
             return SourcesFragment()
@@ -33,25 +36,50 @@ class SourcesFragment:Fragment(R.layout.sources_screen),iSourcesInterfaces, View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rView=view.findViewById(R.id.rView)
 
-        initRecycler()
+        initViews(view)
+        observeSources()
+        initListeners()
+        mViewModel.loadSources()
+        swipeRefresh.isRefreshing=true
     }
-    fun initRecycler(){
-        mViewModel.loadSources().observe(this, Observer {
+
+    fun initListeners(){
+        swipeRefresh.setOnRefreshListener(this)
+    }
+
+    fun initViews(view:View){
+        rView=view.findViewById(R.id.rView)
+        swipeRefresh=view.findViewById(R.id.swipeRefresh)
+    }
+
+    fun observeSources(){
+        mViewModel.observeSources().observe(this, Observer {
                 list->
-            adapter= SourcesAdapter(context!!,list,this)
-            val linearLayoutManager=LinearLayoutManager(context!!)
-            val dividerItemDecoration=DividerItemDecoration(rView.context,linearLayoutManager.orientation)
-            rView.addItemDecoration(dividerItemDecoration)
-            rView.layoutManager=linearLayoutManager
-            rView.adapter=adapter
+            Log.d(UtilsClass.RESULT_TAG,"${list.size}")
+            initRecyclerView(list!!)
         })
 
     }
 
+    private fun initRecyclerView(list: List<ServerSourceModel>) {
+        adapter= SourcesAdapter(context!!,list,this)
+        val linearLayoutManager=LinearLayoutManager(context!!)
+        val dividerItemDecoration=DividerItemDecoration(rView.context,linearLayoutManager.orientation)
+        if(rView.itemDecorationCount>=1){
+            for(i:Int in 0 until rView.itemDecorationCount-1){
+                Log.d(UtilsClass.RESULT_TAG,"item decoration $i ${rView.itemDecorationCount}")
+                rView.removeItemDecorationAt(i)
+            }
+        }
+        rView.addItemDecoration(dividerItemDecoration)
+        rView.layoutManager=linearLayoutManager
+        rView.adapter=adapter
+        swipeRefresh.isRefreshing=false
+    }
+
     override fun checkedChange(view: View, position: Int, state: Boolean) {
-        Log.d(UtilsClass.RESULT_TAG,"$position $state")
+
     }
 
     override fun onClick(p0: View?) {
@@ -60,5 +88,10 @@ class SourcesFragment:Fragment(R.layout.sources_screen),iSourcesInterfaces, View
                 mViewModel.updateSources(adapter.list)
             }
         }
+    }
+
+    override fun onRefresh() {
+        Log.d(UtilsClass.RESULT_TAG,"Refresh")
+        mViewModel.loadSources()
     }
 }

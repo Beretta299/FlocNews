@@ -3,7 +3,12 @@
     <string name="news_api_key">e25a0637a43e452e99650a086201c26c</string>
     <string name="category_predicate">Category: %1$s</string>
     <string name="language_predicate">Language: %1$s</string>
-    <string name="login_hint">Login</string>
+    <string name="temperature_postfix">%d °C</string>
+    <string name="feels_like">Feels like: %d °C</string>
+    <string name="wind_postfix">Wind direction: %d km/h</string>
+    <string name="humidity_postfix">Humidity: %d %s</string>
+    <string name="wind_direction">Wind direction: %s</string>
+    <string name="login_hint">Email</string>
     <string name="pass_hint">Password</string>
     <string name="menu_news">News</string>
     <string name="menu_sources">Sources</string>
@@ -26,35 +31,20 @@
     <string name="repeat_new_pass_hint">Repeat new password</string>
 
     <string name="email_login_error">Wrong email</string>
+    <string name="pass_error">Password must contain 8 symbols and at least one character</string>
+    <string name="pass_not_match">Passwords not match</string>
+    <string name="email_input_error">Wrong email format</string>
+    <string name="empty_field">Field shouldn\'t be empty</string>
+    <string name="date_pattern">dd-MMM-yyyy</string>
+    <string name="current_temperature">Current temperature:</string>
+
+    <string name="weather_url">http://api.weatherstack.com/current</string>
+    <string name="weather_key">71430d29dd5f91d6541aa50b8277582d</string>
+    <string name="sources_warning">You haven\'t choosen any sources, please choose one and return to news page</string>
+    <string name="change_password">Change password</string>
+    <string name="wrong_password">Old password is wrong</string>
 
 
-    <array name="categories">
-        <item>all</item>
-        <item>business</item>
-        <item>entertainment</item>
-        <item>general</item>
-        <item>health</item>
-        <item>science</item>
-        <item>sports</item>
-        <item>technology</item>
-    </array>
-    <array name="languages">
-        <item>All</item>
-        <item>ar</item>
-        <item>de</item>
-        <item>en</item>
-        <item>es</item>
-        <item>fr</item>
-        <item>he</item>
-        <item>it</item>
-        <item>nl</item>
-        <item>no</item>
-        <item>pt</item>
-        <item>ru</item>
-        <item>se</item>
-        <item>ud</item>
-        <item>zh</item>
-    </array>
     <array name="Ukraine">
         <item>Kyiv</item>
         <item>Kharkiv</item>

@@ -23,8 +23,11 @@ class SourcesViewModel(val app:Application):AndroidViewModel(app) {
     var sourcesReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("sources")
     private var sourcesData:MutableLiveData<List<ServerSourceModel>> = MutableLiveData()
 
+    fun observeSources():LiveData<List<ServerSourceModel>>{
+        return sourcesData
+    }
 
-    fun loadSources():MutableLiveData<List<ServerSourceModel>>{
+    fun loadSources(){
         sourcesReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object:
             ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -33,7 +36,6 @@ class SourcesViewModel(val app:Application):AndroidViewModel(app) {
 
             override fun onDataChange(p0: DataSnapshot) {
                     val serverDBModel:SourceDBModel=p0.getValue(SourceDBModel::class.java)!!
-                    Log.d(UtilsClass.RESULT_TAG,"EDDAD"+serverDBModel.sourceId)
                     val disposable=NewsRepositoryProvider
                         .provideNewsRepository()
                         .getSources(app.getString(R.string.news_api_key),"","")
@@ -56,7 +58,6 @@ class SourcesViewModel(val app:Application):AndroidViewModel(app) {
                         })
             }
         })
-        return sourcesData
     }
 
     fun updateSources(list:List<ServerSourceModel>){
@@ -66,7 +67,9 @@ class SourcesViewModel(val app:Application):AndroidViewModel(app) {
                 listOfSources.append("${sourceModel.id}, ")
             }
         }
-        listOfSources.delete(listOfSources.count()-2,listOfSources.count())
+        if(listOfSources.count()>0){
+            listOfSources.delete(listOfSources.count()-2,listOfSources.count())
+        }
         sourcesReference.child(firebaseAuth.uid!!).setValue(SourceDBModel(listOfSources.toString()))
     }
 

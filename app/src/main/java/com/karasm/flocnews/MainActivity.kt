@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var mDrawerToggle: ActionBarDrawerToggle
     lateinit var navigationView:NavigationView
     lateinit var mViewModel:MainActivityViewModel
-//    lateinit var databaseReference:DatabaseReference
-//    lateinit var databaseCityReference:DatabaseReference
+    lateinit var databaseReference:DatabaseReference
+    lateinit var databaseCityReference:DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         setDrawerState(true)
         setStartFragment()
+        mViewModel.preLoadCountries()
+        mViewModel.preLoadCities()
     }
 
 
@@ -78,58 +80,57 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-//    fun getCountriesList(){
-//        databaseReference.addListenerForSingleValueEvent(object:ValueEventListener{
-//            override fun onDataChange(p0: DataSnapshot) {
-//                for(dataSnapshot:DataSnapshot in p0.children){
-//                    val countryModel:CountryModel=dataSnapshot.getValue(CountryModel::class.java)!!
-//
-//                }
-//            }
-//            override fun onCancelled(p0: DatabaseError) {
-//
-//            }
-//        })
-//    }
+    fun getCountriesList(){
+        databaseReference.addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                for(dataSnapshot:DataSnapshot in p0.children){
+                    val countryModel:CountryModel=dataSnapshot.getValue(CountryModel::class.java)!!
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
 
-//    fun insertCountries(){
-//        var id=databaseReference.push().key.toString()
-//        databaseReference.child(id).setValue(CountryModel("Ukraine"))
-//        id=databaseReference.push().key.toString()
-//        databaseReference.child(id).setValue(CountryModel("Poland"))
-//        id=databaseReference.push().key.toString()
-//        databaseReference.child(id).setValue(CountryModel("Germany"))
-//    }
-//
-//    fun insertCitys(){
-//        databaseReference.addListenerForSingleValueEvent(
-//            object : ValueEventListener {
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    for((i, model:DataSnapshot) in dataSnapshot.children.withIndex()){
-//                        if(i==0){
-//                        for(cityName in resources.getStringArray(R.array.Ukraine)){
-//                                val id=databaseCityReference.push().key.toString()
-//                                databaseCityReference.child(id).setValue(CityModel(model.key.toString(),cityName))
-//                            }
-//                        }else if(i==1){
-//                            for(cityName in resources.getStringArray(R.array.Poland)){
-//                                val id=databaseCityReference.push().key.toString()
-//                                databaseCityReference.child(id).setValue(CityModel(model.key.toString(),cityName))
-//                            }
-//                        }else if(i==2){
-//                            for(cityName in resources.getStringArray(R.array.Germany)){
-//                                val id=databaseCityReference.push().key.toString()
-//                                databaseCityReference.child(id).setValue(CityModel(model.key.toString(),cityName))
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                override fun onCancelled(databaseError: DatabaseError) {
-//                    //handle databaseError
-//                }
-//            })
-//    }
+            }
+        })
+    }
+
+    fun insertCountries(){
+        var id=databaseReference.push().key.toString()
+        databaseReference.child(id).setValue(CountryModel(null,"Ukraine"))
+        id=databaseReference.push().key.toString()
+        databaseReference.child(id).setValue(CountryModel(null,"Poland"))
+        id=databaseReference.push().key.toString()
+        databaseReference.child(id).setValue(CountryModel(null,"Germany"))
+    }
+
+    fun insertCitys(){
+        databaseReference.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for((i, model:DataSnapshot) in dataSnapshot.children.withIndex()){
+                        if(i==0){
+                        for(cityName in resources.getStringArray(R.array.Ukraine)){
+                                val id=databaseCityReference.push().key.toString()
+                                databaseCityReference.child(id).setValue(CityModel(null,model.key.toString(),cityName))
+                            }
+                        }else if(i==1){
+                            for(cityName in resources.getStringArray(R.array.Poland)){
+                                val id=databaseCityReference.push().key.toString()
+                                databaseCityReference.child(id).setValue(CityModel(null,model.key.toString(),cityName))
+                            }
+                        }else if(i==2){
+                            for(cityName in resources.getStringArray(R.array.Germany)){
+                                val id=databaseCityReference.push().key.toString()
+                                databaseCityReference.child(id).setValue(CityModel(null,model.key.toString(),cityName))
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    //handle databaseError
+                }
+            })
+    }
 
 
 private fun setStartFragment(){
@@ -161,13 +162,13 @@ override fun onNavigationItemSelected(item: MenuItem): Boolean {
                     .commit()
         }
         R.id.weather-> {
-//                supportFragmentManager.beginTransaction()
-//                    .replace(R.id.fragment_container,WeatherFragment.newInstance())
-//                    .commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,WeatherFragment.newInstance())
+                    .commit()
         }
         R.id.profile-> {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,UserDataFragment.newInstance())
+                .replace(R.id.fragment_container,UserDataFragment.newInstance(false))
                 .commit()
         }
         R.id.exit-> {

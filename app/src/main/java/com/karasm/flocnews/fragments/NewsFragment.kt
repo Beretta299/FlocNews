@@ -3,31 +3,27 @@ package com.karasm.flocnews.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
-import com.karasm.flocnews.adapters.ArticleFragment
 import com.karasm.flocnews.adapters.NewsAdapter
 import com.karasm.flocnews.interfaces.iArticleNavigation
 import com.karasm.flocnews.interfaces.iDialogReadyCallback
 import com.karasm.flocnews.interfaces.iNewsListener
-import com.karasm.flocnews.models.NewsModel
 import com.karasm.flocnews.models.NewsNetModel
 import com.karasm.flocnews.viewmodels.NewsViewModel
 
 
 
 class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefreshListener,
-    iNewsListener {
+    iNewsListener, View.OnClickListener {
 
     override fun onRefresh() {
         getNews()
@@ -37,6 +33,7 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
     lateinit var rView:RecyclerView
     lateinit var swipeRefresh:SwipeRefreshLayout
     lateinit var adapter:NewsAdapter
+    lateinit var warningTextView:TextView
 
 
     companion object{
@@ -62,23 +59,39 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
 
     private fun initListeners() {
         swipeRefresh.setOnRefreshListener(this)
+        warningTextView.setOnClickListener(this)
     }
 
     private fun initViews(view: View) {
         rView=view.findViewById(R.id.rView)
         swipeRefresh=view.findViewById(R.id.swipeRefresh)
+        warningTextView=view.findViewById(R.id.warningTextView)
     }
 
     fun initDataObserving(){
         mViewModel.getNewsData().observe(this, Observer {
                 list->
-            Log.d(UtilsClass.RESULT_TAG,"We are here")
-            initRecyclerView(list)
+            if(list==null){
+                setSourcesWarning()
+            }else{
+                hideSourcesWarning()
+                initRecyclerView(list)
+            }
+
         })
     }
 
+    fun hideSourcesWarning(){
+        warningTextView.visibility=View.GONE
+    }
+
+    fun setSourcesWarning(){
+        warningTextView.visibility=View.VISIBLE
+        swipeRefresh.isRefreshing=false
+    }
+
     fun getNews(){
-        mViewModel.loadNews()
+        mViewModel.getNews()
     }
 
     private fun initRecyclerView(list:List<NewsNetModel>){
@@ -90,8 +103,8 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
     }
 
     override fun onItemClick(newsModel: NewsNetModel,position:Int) {
-        Log.d(UtilsClass.RESULT_TAG,newsModel.title)
-        val dialog:ArticleFragment=ArticleFragment.newInstance()
+        val dialog: ArticleFragment =
+            ArticleFragment.newInstance()
         dialog.show(fragmentManager!!,NewsFragment::class.java.simpleName)
         dialog.setCallback(object:iDialogReadyCallback{
             override fun dialogReady() {
@@ -121,6 +134,15 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
 
     }
 
+    override fun onClick(p0: View?) {
+        when(p0!!.id){
+            warningTextView.id->{
+                fragmentManager!!.beginTransaction()
+                    .replace(R.id.fragment_container,SourcesFragment.newInstance())
+                    .commit()
+            }
+        }
+    }
 
 
 }

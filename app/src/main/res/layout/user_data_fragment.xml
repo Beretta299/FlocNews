@@ -47,7 +47,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputOldPassLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
@@ -58,7 +58,8 @@
                 app:hintTextAppearance="@style/BlueTextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView">
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputOldPass"
@@ -66,16 +67,17 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
+                    android:inputType="textPassword"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputNewPassLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="bottom"
@@ -85,7 +87,8 @@
                 app:hintTextAppearance="@style/BlueTextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputOldPassLayout">
+                app:layout_constraintTop_toBottomOf="@id/textInputOldPassLayout"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputNewPass"
@@ -93,16 +96,17 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
+                    android:inputType="textPassword"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputRepeatNewPassLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="bottom"
@@ -112,7 +116,8 @@
                 app:hintTextAppearance="@style/BlueTextInputLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textInputNewPassLayout">
+                app:layout_constraintTop_toBottomOf="@id/textInputNewPassLayout"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputRepeatNewPass"
@@ -120,16 +125,17 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
+                    android:inputType="textPassword"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputNameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="40dp"
@@ -149,15 +155,15 @@
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLastNameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="bottom"
@@ -176,15 +182,15 @@
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputPhoneLayout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginEnd="40dp"
                 android:gravity="bottom"
@@ -203,9 +209,9 @@
                     android:background="@drawable/inputbox_border"
                     android:fontFamily="@font/roboto_condensed_regular"
                     android:paddingLeft="7dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="18sp" />
+                    android:paddingTop="10dp"
+                    android:paddingBottom="7dp"
+                    android:textSize="24sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -271,15 +277,30 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/button_shape"
                 android:fontFamily="@font/roboto_condensed_bold"
                 android:text="@string/confirm_button"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/rightWidthHelper"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/leftWidthHelper"
                 app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
+
+            <Button
+                android:id="@+id/confirmPassChange"
+                android:layout_width="329dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:text="@string/change_password"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/rightWidthHelper"
+                app:layout_constraintStart_toStartOf="@+id/leftWidthHelper"
+                app:layout_constraintTop_toBottomOf="@+id/textInputRepeatNewPassLayout" />
 
             <Spinner
                 android:id="@+id/citySpinner"
@@ -311,7 +332,7 @@
                 android:textColor="@color/blueRosemary"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/leftWidthHelper"
-                app:layout_constraintTop_toBottomOf="@+id/textInputRepeatNewPassLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/confirmPassChange" />
 
             <View
                 android:id="@+id/personalInfoDivider"
@@ -323,6 +344,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/personaInformationLabel" />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/groupData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="textView,textInputNewPassLayout,passDivider,textInputOldPassLayout,textInputRepeatNewPassLayout,confirmPassChange">
+
+            </androidx.constraintlayout.widget.Group>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </ScrollView>

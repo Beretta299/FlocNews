@@ -2,6 +2,7 @@ package com.karasm.flocnews.rest
 
 import com.karasm.flocnews.models.NewsModel
 import com.karasm.flocnews.models.SourceModel
+import com.karasm.flocnews.models.WeatherData
 import io.reactivex.Observable
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,6 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface NewsApiService {
     @GET("sources")
@@ -16,6 +18,9 @@ interface NewsApiService {
 
     @GET("top-headlines")
     fun getHeadlines(@Query("apiKey") apiKey:String,@Query("sources") sources:String,@Query("category")category: String,@Query("language") language:String):Observable<Response<NewsModel>>
+
+    @GET
+    fun getWeather(@Url url:String,@Query("access_key") key:String,@Query("query") cityName:String ):Observable<Response<WeatherData>>
 
     companion object {
         fun create():NewsApiService{

@@ -29,12 +29,18 @@ android {
 
 dependencies {
     def retrofitVersion="2.6.1"
+    def room_version = "2.2.0-rc01"
     //libs
     //Retrofit2
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
