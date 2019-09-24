@@ -57,6 +57,8 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     lateinit var citySpinner:Spinner
     lateinit var firstName:TextInputEditText
     lateinit var lastName:TextInputEditText
+    lateinit var firstNameLayout:TextInputLayout
+    lateinit var lastNameLayout:TextInputLayout
     lateinit var phone:TextInputEditText
     lateinit var oldPassField:TextInputEditText
     lateinit var newPassField:TextInputEditText
@@ -64,6 +66,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     lateinit var oldPassLayout:TextInputLayout
     lateinit var newPassLayout:TextInputLayout
     lateinit var newPassRepLayout:TextInputLayout
+    lateinit var infoLabel:TextView
     lateinit var confirmPassChange:Button
 
     lateinit var passwordRestoration:Group
@@ -74,12 +77,15 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     lateinit var adapter:CountrySpjnnerAdapter
     lateinit var cityAdapter:CitySpinnerAdapter
     lateinit var datePicker:DatePickerDialog
+    lateinit var phoneLayout:TextInputLayout
     lateinit var dateOfBirthField:TextView
     var isRegistration=false
     var passText=""
     var passRepeatText=""
     lateinit var passLayouts:ArrayList<TextInputLayout>
     lateinit var passFields:ArrayList<TextInputEditText>
+    lateinit var profileLayouts:ArrayList<TextInputLayout>
+    lateinit var profileFields:ArrayList<TextInputEditText>
 
     private lateinit var mViewModel: UserDataViewModel
 
@@ -98,6 +104,12 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         isUserRegistration(isRegistration)
         setCurrentDate()
         observePassValue()
+        if(isRegistration)
+        {
+            infoLabel.text=getString(R.string.complete_registration)
+        }else{
+            infoLabel.text=getString(R.string.personal_info)
+        }
     }
 
     private fun observePassValue() {
@@ -105,9 +117,17 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
             if(!it){
                 oldPassLayout.error=getString(R.string.wrong_password)
             }else{
+                oldPassLayout.error=""
+                clearPassFields()
                 Toast.makeText(context,"Congratulations! Password changed",Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun clearPassFields() {
+        for(fields in passFields){
+            fields.text!!.clear()
+        }
     }
 
     fun setCurrentDate(){
@@ -122,7 +142,10 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         firstName=view.findViewById(R.id.textInputName)
         lastName=view.findViewById(R.id.textInputLastName)
         phone=view.findViewById(R.id.textInputPhone)
+        phoneLayout=view.findViewById(R.id.textInputPhoneLayout)
         registrationConfirm=view.findViewById(R.id.confirmRegistration)
+        firstNameLayout=view.findViewById(R.id.textInputNameLayout)
+        lastNameLayout=view.findViewById(R.id.textInputLastNameLayout)
         passwordRestoration=view.findViewById(R.id.groupData)
         oldPassLayout=view.findViewById(R.id.textInputOldPassLayout)
         newPassLayout=view.findViewById(R.id.textInputNewPassLayout)
@@ -131,6 +154,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         newPassField=view.findViewById(R.id.textInputNewPass)
         newPassRepField=view.findViewById(R.id.textInputRepeatNewPass)
         confirmPassChange=view.findViewById(R.id.confirmPassChange)
+        infoLabel=view.findViewById(R.id.personaInformationLabel)
         passLayouts= ArrayList()
         passFields= ArrayList()
         passLayouts.add(oldPassLayout)
@@ -139,6 +163,14 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         passFields.add(oldPassField)
         passFields.add(newPassField)
         passFields.add(newPassRepField)
+        profileLayouts= ArrayList()
+        profileFields= ArrayList()
+        profileLayouts.add(firstNameLayout)
+        profileLayouts.add(lastNameLayout)
+        profileLayouts.add(phoneLayout)
+        profileFields.add(firstName)
+        profileFields.add(lastName)
+        profileFields.add(phone)
     }
 
     fun initListeners(){
@@ -150,6 +182,9 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         oldPassField.addTextChangedListener(this)
         newPassField.addTextChangedListener(this)
         newPassRepField.addTextChangedListener(this)
+        phone.addTextChangedListener(this)
+        firstName.addTextChangedListener(this)
+        lastName.addTextChangedListener(this)
     }
 
 
@@ -176,6 +211,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     fun getUserData(){
         mViewModel.getUserData().observe(this, Observer {
             model->
+            Log.d(UtilsClass.RESULT_TAG,model.firstName)
             setUserData(model!!)
         })
     }
@@ -194,7 +230,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         phone.text=Editable.Factory.getInstance().newEditable(model.phoneNumber)
         dateOfBirthField.text=model.birthDate
         setNeededCountry(model.countryId)
-        Single.timer(500,TimeUnit.MILLISECONDS)
+        val disposable=Single.timer(500,TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 setNeededCity(model.cityId)
@@ -220,7 +256,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         }
     }
 
-    fun isNoError():Boolean{
+    fun isNoPassError():Boolean{
         var boolean=true
         for(layout in passLayouts){
             if(layout.error!=null){
@@ -237,6 +273,26 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
 
         return boolean
     }
+
+    fun isNoProfileError():Boolean{
+        var boolean=true
+        for(layout in profileLayouts){
+            if(layout.error!=null){
+                boolean=false
+                break
+            }
+        }
+        for((i,field) in profileFields.withIndex()){
+            if(field.text.toString()==""){
+                passLayouts[i].error=getString(R.string.empty_field)
+                boolean=false
+            }
+        }
+
+        return boolean
+    }
+
+
 
     private fun getCountries(){
         mViewModel.getCountries().observe(this, Observer{
@@ -294,10 +350,14 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
             countryList!![countrySpinner.selectedItemPosition].keyValue)
 
         mViewModel.saveUserData(user).observe(this, Observer {
+
             if(isRegistration){
             fragmentManager!!.beginTransaction()
                 .replace(R.id.fragment_container,NewsFragment.newInstance())
                 .commit()
+                Toast.makeText(context,getString(R.string.user_data_added),Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(context,getString(R.string.user_data_updated),Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -312,10 +372,12 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
                 setUpDatePickerDialog()
             }
             registrationConfirm.id->{
-                registerUser()
+                if(isNoProfileError()){
+                    registerUser()
+                }
             }
             confirmPassChange.id->{
-                if(isNoError()){
+                if(isNoPassError()){
                     changePassword()
                 }
             }
@@ -346,6 +408,35 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
                     oldPassLayout.error=""
                 }
             }
+            newPassField.text.hashCode()->{
+                if(!newPassField.text!!.matches(Regex(UtilsClass.PASSWORD_REGEX))){
+                    newPassField.error=getString(R.string.pass_error)
+                }else{
+                    newPassField.error=""
+                }
+            }
+            phone.text.hashCode()->{
+                if(!phone.text!!.matches(Regex(UtilsClass.PHONE_REGEX))){
+                    phoneLayout.error=getString(R.string.phone_format_error)
+                }else{
+                    phoneLayout.error=""
+                }
+            }
+            firstName.text.hashCode()->{
+                if(!firstName.text!!.matches(Regex(UtilsClass.NAME_REGEX))){
+                    firstNameLayout.error=getString(R.string.name_error)
+                }else{
+                    firstNameLayout.error=""
+                }
+            }
+            lastName.text.hashCode()->{
+                if(!lastName.text!!.matches(Regex(UtilsClass.NAME_REGEX))){
+                    lastNameLayout.error=getString(R.string.name_error)
+                }else{
+                    lastNameLayout.error=""
+                }
+            }
+
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.karasm.flocnews.models.CityModel
 import com.karasm.flocnews.models.CountryModel
+import com.karasm.flocnews.models.WeatherModel
 import io.reactivex.Flowable
 import org.intellij.lang.annotations.Flow
 

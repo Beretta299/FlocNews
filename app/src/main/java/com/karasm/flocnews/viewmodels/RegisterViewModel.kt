@@ -15,8 +15,10 @@ class RegisterViewModel(app:Application):AndroidViewModel(app) {
 
     fun registerUser(email:String,password:String){
         firebaseAuth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener {
+            .addOnSuccessListener {
                 Log.d(UtilsClass.RESULT_TAG,"Registration completed")
+            }.addOnFailureListener {
+                Log.d(UtilsClass.RESULT_TAG,it.toString())
             }
     }
 

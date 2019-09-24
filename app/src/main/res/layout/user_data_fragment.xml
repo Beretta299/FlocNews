@@ -328,7 +328,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_condensed_bold"
-                android:text="Personal information"
+                android:text="@string/personal_info"
                 android:textColor="@color/blueRosemary"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/leftWidthHelper"

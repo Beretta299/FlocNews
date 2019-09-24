@@ -22,11 +22,30 @@ class MainActivityViewModel(val app:Application):AndroidViewModel(app) {
     private var firebaseAuth:FirebaseAuth =FirebaseAuth.getInstance()
     private var countryReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("countries")
     private var cityReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("cities")
+    private var userReference:DatabaseReference=FirebaseDatabase.getInstance().getReference("userdata")
+    private var isUserExist:MutableLiveData<Boolean> = MutableLiveData()
     private var disposeBag=CompositeDisposable()
 
     fun isUserLogged():LiveData<Boolean>{
         userLogonData.value = firebaseAuth.currentUser!=null
         return userLogonData
+    }
+
+    fun isUserExist():LiveData<Boolean>{
+        return isUserExist
+    }
+
+    fun checkUserExist(){
+        userReference.child(firebaseAuth.uid!!).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                isUserExist.value = p0.exists()
+            }
+
+        })
     }
 
     fun preLoadCities(){

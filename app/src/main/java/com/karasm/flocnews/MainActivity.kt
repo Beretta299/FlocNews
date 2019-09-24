@@ -65,6 +65,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setStartFragment()
         mViewModel.preLoadCountries()
         mViewModel.preLoadCities()
+        mViewModel.isUserExist().observe(this,androidx.lifecycle.Observer {
+            if(it){
+
+            }
+        })
     }
 
 

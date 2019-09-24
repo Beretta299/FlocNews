@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -24,6 +25,8 @@ class WeatherFragment:Fragment(R.layout.weather_screen),SwipeRefreshLayout.OnRef
     lateinit var weatherHumidity:TextView
     lateinit var weatherCityName:TextView
     lateinit var mViewModel:WeatherViewModel
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var iconsGroup:Group
     //lateinit var swipeRefresh:SwipeRefreshLayout
 
     companion object{
@@ -40,7 +43,14 @@ class WeatherFragment:Fragment(R.layout.weather_screen),SwipeRefreshLayout.OnRef
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews(view)
+        initListeners()
         getWeather()
+        swipeRefreshLayout.isRefreshing=true
+        hideIcons()
+    }
+
+    fun hideIcons(){
+        iconsGroup.visibility=View.GONE
     }
 
     fun setWeatherData(weather:WeatherModel){
@@ -57,10 +67,19 @@ class WeatherFragment:Fragment(R.layout.weather_screen),SwipeRefreshLayout.OnRef
         weatherTemperature.text=String.format(getString(R.string.temperature_postfix,weather.temperature))
     }
 
+    fun initListeners(){
+        swipeRefreshLayout.setOnRefreshListener(this)
+    }
+
+    fun showIcons(){
+        iconsGroup.visibility=View.VISIBLE
+    }
 
     private fun getWeather() {
         mViewModel.observeWeather().observe(this, Observer {
+            swipeRefreshLayout.isRefreshing=false
             Log.d(UtilsClass.RESULT_TAG,"Current temperature ${it.temperature}")
+            showIcons()
             setWeatherData(it)
         })
         mViewModel.loadWeather()
@@ -74,10 +93,12 @@ class WeatherFragment:Fragment(R.layout.weather_screen),SwipeRefreshLayout.OnRef
         weatherWindSpeed=view.findViewById(R.id.weatherWindSpeed)
         weatherHumidity=view.findViewById(R.id.weatherHumidity)
         weatherCityName=view.findViewById(R.id.weatherCityName)
+        swipeRefreshLayout=view.findViewById(R.id.swipeRefresh)
+        iconsGroup=view.findViewById(R.id.iconsGroup)
         //swipeRefresh=view.findViewById(R.id.swipeRefresh)
     }
 
     override fun onRefresh() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mViewModel.loadWeather()
     }
 }

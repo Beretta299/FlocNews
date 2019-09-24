@@ -8,6 +8,8 @@ class UtilsClass {
 
         val PHONE_REGEX="^\\+?(38)?\\(?[0-9]{3}\\)?[0-9]{3}\\-?[0-9]{2}\\-?[0-9]{2}$"
 
+        val NAME_REGEX="^[a-zA-Z\\s]+"
+
 
     }
 }

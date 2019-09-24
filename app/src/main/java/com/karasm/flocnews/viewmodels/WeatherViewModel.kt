@@ -9,10 +9,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
+import com.karasm.flocnews.db.LocalStorage
 import com.karasm.flocnews.models.CityModel
 import com.karasm.flocnews.models.UserModel
 import com.karasm.flocnews.models.WeatherModel
 import com.karasm.flocnews.rest.NewsRepositoryProvider
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -34,8 +36,10 @@ class WeatherViewModel(val app:Application):AndroidViewModel(app) {
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
+                    if(p0.exists()){
                     val userData:UserModel=p0.getValue(UserModel::class.java)!!
                     getCityData(userData.cityId)
+                    }
                 }
             })
     }

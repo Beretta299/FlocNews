@@ -37,8 +37,6 @@ class LoginFragment:Fragment(R.layout.login_screen),View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar!!.hide()
-
         mViewModel=ViewModelProviders.of(this).get(LoginViewModel::class.java)
     }
 
@@ -65,6 +63,11 @@ class LoginFragment:Fragment(R.layout.login_screen),View.OnClickListener {
         regButton.setOnClickListener(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+    }
+
     override fun onClick(p0: View?) {
         when(p0!!.id){
             logButton.id->{
@@ -86,6 +89,7 @@ class LoginFragment:Fragment(R.layout.login_screen),View.OnClickListener {
                 fragmentManager!!
                     .beginTransaction()
                     .replace(R.id.fragment_container,RegisterFragment.newInstance())
+                    .addToBackStack(null)
                     .commit()
             }
         }

@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputEditText
@@ -27,6 +31,7 @@ class RegisterFragment: Fragment(R.layout.register_screen),View.OnClickListener,
     lateinit var regButton:Button
 
     lateinit var mViewModel:RegisterViewModel
+    lateinit var toolbar: Toolbar
 
     lateinit var layoutArray:ArrayList<TextInputLayout>
     lateinit var fieldsArray:ArrayList<TextInputEditText>
@@ -43,7 +48,7 @@ class RegisterFragment: Fragment(R.layout.register_screen),View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        (activity as AppCompatActivity).supportActionBar!!.hide()
         mViewModel=ViewModelProviders.of(this).get(RegisterViewModel::class.java)
     }
 
@@ -74,8 +79,12 @@ class RegisterFragment: Fragment(R.layout.register_screen),View.OnClickListener,
         loginLayout=view.findViewById(R.id.textInputEmailLayout)
         passLayout=view.findViewById(R.id.textInputPassLayout)
         repeatPassLayout=view.findViewById(R.id.textInputRepPassLayout)
+        toolbar=view.findViewById(R.id.toolbarId)
 
         regButton=view.findViewById(R.id.regButton)
+        toolbar.setNavigationOnClickListener {
+            fragmentManager!!.popBackStack()
+        }
     }
 
     private fun initListeners(){
@@ -102,7 +111,6 @@ class RegisterFragment: Fragment(R.layout.register_screen),View.OnClickListener,
 
     return boolean
     }
-
 
     override fun onClick(p0: View?) {
         when(p0!!.id){

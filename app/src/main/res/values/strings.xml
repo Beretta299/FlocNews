@@ -43,6 +43,12 @@
     <string name="sources_warning">You haven\'t choosen any sources, please choose one and return to news page</string>
     <string name="change_password">Change password</string>
     <string name="wrong_password">Old password is wrong</string>
+    <string name="phone_format_error">Wrong phone number format</string>
+    <string name="name_error">Name shouldn\'t containt numbers or special characters</string>
+    <string name="user_data_updated">User data updated</string>
+    <string name="user_data_added">User data added</string>
+    <string name="personal_info">Personal information</string>
+    <string name="complete_registration">Complete_registration</string>
 
 
     <array name="Ukraine">
