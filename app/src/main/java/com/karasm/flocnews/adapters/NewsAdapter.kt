@@ -51,20 +51,14 @@ class NewsAdapter(val context: Context, val list:List<NewsNetModel>,val listener
             }
         }
         fun setNews(newsNetModel: NewsNetModel){
-            if(newsNetModel.urlToImage!=""){
+            Log.d(UtilsClass.RESULT_TAG,"newsName  ${newsNetModel.title} ${newsNetModel.urlToImage}")
             Picasso.get()
                 .load(newsNetModel.urlToImage)
+                .placeholder(R.drawable.ic_no_photo)
                 .error(R.drawable.ic_no_photo)
                 .fit()
                 .centerCrop()
                 .into(newsImage)
-            }else{
-                Picasso.get()
-                    .load(R.drawable.ic_no_photo)
-                    .fit()
-                    .centerCrop()
-                    .into(newsImage)
-            }
 
 
             newsTitle.text=newsNetModel.title

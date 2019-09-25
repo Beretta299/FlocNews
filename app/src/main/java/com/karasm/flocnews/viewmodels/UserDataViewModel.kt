@@ -53,6 +53,10 @@ class UserDataViewModel(private val app:Application):AndroidViewModel(app) {
         return isPassCorrect
     }
 
+    fun logOutUser(){
+        firebaseAuth.signOut()
+    }
+
 
     fun saveUserData(user:UserModel):LiveData<Boolean>{
         userReference.child(firebaseAuth.currentUser!!.uid).setValue(user)

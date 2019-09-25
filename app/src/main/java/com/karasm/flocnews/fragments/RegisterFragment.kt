@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -117,6 +118,7 @@ class RegisterFragment: Fragment(R.layout.register_screen),View.OnClickListener,
             regButton.id->{
                 if(isNoError()){
                 mViewModel.registerUser(loginField.text.toString(),passField.text.toString())
+                    Toast.makeText(context!!,getString(R.string.user_added),Toast.LENGTH_LONG).show()
                 fragmentManager!!.beginTransaction()
                     .replace(R.id.fragment_container,UserDataFragment.newInstance(true))
                     .commit()

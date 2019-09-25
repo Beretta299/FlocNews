@@ -16,6 +16,7 @@ import com.karasm.flocnews.Utils.UtilsClass
 import com.karasm.flocnews.adapters.NewsAdapter
 import com.karasm.flocnews.interfaces.iArticleNavigation
 import com.karasm.flocnews.interfaces.iDialogReadyCallback
+import com.karasm.flocnews.interfaces.iDrawerLocker
 import com.karasm.flocnews.interfaces.iNewsListener
 import com.karasm.flocnews.models.NewsNetModel
 import com.karasm.flocnews.viewmodels.NewsViewModel
@@ -45,6 +46,7 @@ class NewsFragment : Fragment(R.layout.news_screen),SwipeRefreshLayout.OnRefresh
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as AppCompatActivity).supportActionBar!!.show()
+        (activity as iDrawerLocker).toggleDrawer(true)
         mViewModel= ViewModelProviders.of(this).get(NewsViewModel::class.java)
     }
 

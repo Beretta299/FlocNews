@@ -7,11 +7,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -23,6 +26,7 @@ import com.karasm.flocnews.R
 import com.karasm.flocnews.Utils.UtilsClass
 import com.karasm.flocnews.adapters.CitySpinnerAdapter
 import com.karasm.flocnews.adapters.CountrySpjnnerAdapter
+import com.karasm.flocnews.interfaces.iDrawerLocker
 import com.karasm.flocnews.models.CityModel
 import com.karasm.flocnews.models.CountryModel
 import com.karasm.flocnews.models.UserModel
@@ -66,6 +70,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
     lateinit var oldPassLayout:TextInputLayout
     lateinit var newPassLayout:TextInputLayout
     lateinit var newPassRepLayout:TextInputLayout
+    lateinit var logOutView:TextView
     lateinit var infoLabel:TextView
     lateinit var confirmPassChange:Button
 
@@ -107,10 +112,14 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         if(isRegistration)
         {
             infoLabel.text=getString(R.string.complete_registration)
+            (activity as AppCompatActivity).supportActionBar!!.hide()
+            (activity as iDrawerLocker).toggleDrawer(false)
         }else{
             infoLabel.text=getString(R.string.personal_info)
         }
     }
+
+
 
     private fun observePassValue() {
         mViewModel.isPassCorrectObserve().observe(this, Observer {
@@ -153,6 +162,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         oldPassField=view.findViewById(R.id.textInputOldPass)
         newPassField=view.findViewById(R.id.textInputNewPass)
         newPassRepField=view.findViewById(R.id.textInputRepeatNewPass)
+        logOutView=view.findViewById(R.id.logOut)
         confirmPassChange=view.findViewById(R.id.confirmPassChange)
         infoLabel=view.findViewById(R.id.personaInformationLabel)
         passLayouts= ArrayList()
@@ -171,6 +181,16 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         profileFields.add(firstName)
         profileFields.add(lastName)
         profileFields.add(phone)
+        view.isFocusableInTouchMode = true
+        view.requestFocus()
+        view.setOnKeyListener { view, keyCode, event ->
+
+            if( keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                activity!!.finish()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
     }
 
     fun initListeners(){
@@ -181,6 +201,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         confirmPassChange.setOnClickListener(this)
         oldPassField.addTextChangedListener(this)
         newPassField.addTextChangedListener(this)
+        logOutView.setOnClickListener(this)
         newPassRepField.addTextChangedListener(this)
         phone.addTextChangedListener(this)
         firstName.addTextChangedListener(this)
@@ -284,7 +305,7 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
         }
         for((i,field) in profileFields.withIndex()){
             if(field.text.toString()==""){
-                passLayouts[i].error=getString(R.string.empty_field)
+                profileLayouts[i].error=getString(R.string.empty_field)
                 boolean=false
             }
         }
@@ -381,6 +402,13 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
                     changePassword()
                 }
             }
+            logOutView.id->{
+                mViewModel.logOutUser()
+                fragmentManager!!
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,LoginFragment.newInstance())
+                    .commit()
+            }
         }
     }
 
@@ -392,6 +420,9 @@ class UserDataFragment:Fragment(R.layout.user_data_fragment),AdapterView.OnItemS
             newPassRepLayout.error=""
         }
     }
+
+
+
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
     }

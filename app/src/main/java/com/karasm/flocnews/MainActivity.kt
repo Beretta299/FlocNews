@@ -35,12 +35,17 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.karasm.flocnews.fragments.*
+import com.karasm.flocnews.interfaces.iDrawerLocker
 import com.karasm.flocnews.models.CityModel
 import com.karasm.flocnews.viewmodels.MainActivityViewModel
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,iDrawerLocker {
+    override fun toggleDrawer(boolean: Boolean) {
+        setDrawerState(boolean)
+    }
+
     lateinit var mDrawerLayout:DrawerLayout
     lateinit var mDrawerToggle: ActionBarDrawerToggle
     lateinit var navigationView:NavigationView
@@ -52,6 +57,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_screen)
 
+
+        supportActionBar!!.hide()
         val actionBar=supportActionBar
         actionBar!!.setHomeAsUpIndicator(R.drawable.ic_menu)
         actionBar.setDisplayHomeAsUpEnabled(true)
@@ -61,27 +68,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mViewModel=ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
         navigationView.setNavigationItemSelectedListener(this)
-        setDrawerState(true)
         setStartFragment()
         mViewModel.preLoadCountries()
         mViewModel.preLoadCities()
-        mViewModel.isUserExist().observe(this,androidx.lifecycle.Observer {
-            if(it){
-
-            }
-        })
     }
 
 
     fun setDrawerState(isEnabled: Boolean) {
         if (isEnabled) {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            mDrawerToggle.isDrawerIndicatorEnabled=true
-            mDrawerToggle.syncState()
+            //mDrawerToggle.isDrawerIndicatorEnabled=true
+            //mDrawerToggle.syncState()
         } else {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-            mDrawerToggle.isDrawerIndicatorEnabled=false
-            mDrawerToggle.syncState()
+            //mDrawerToggle.isDrawerIndicatorEnabled=false
+            // mDrawerToggle.syncState()
         }
     }
 
@@ -141,9 +142,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 private fun setStartFragment(){
 mViewModel.isUserLogged().observe(this,androidx.lifecycle.Observer {
     if(it){
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container,NewsFragment.newInstance())
-            .commit()
+        mViewModel.checkUserExist()
+        mViewModel.isUserExist().observe(this,androidx.lifecycle.Observer {exists->
+            if(exists){
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,NewsFragment.newInstance())
+                    .commit()
+            }else{
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container,UserDataFragment.newInstance(true))
+                    .commit()
+            }
+        })
     }else{
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container,LoginFragment.newInstance())
@@ -153,8 +163,16 @@ mViewModel.isUserLogged().observe(this,androidx.lifecycle.Observer {
 }
 
 
+    override fun onBackPressed() {
+        var count=supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
 
-override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
     when(item.itemId) {
         R.id.news-> {
             supportFragmentManager.beginTransaction()

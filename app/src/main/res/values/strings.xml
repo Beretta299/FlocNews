@@ -30,7 +30,7 @@
     <string name="new_pass_hint">New password</string>
     <string name="repeat_new_pass_hint">Repeat new password</string>
 
-    <string name="email_login_error">Wrong email</string>
+    <string name="email_login_error">Wrong email or password</string>
     <string name="pass_error">Password must contain 8 symbols and at least one character</string>
     <string name="pass_not_match">Passwords not match</string>
     <string name="email_input_error">Wrong email format</string>
@@ -48,7 +48,10 @@
     <string name="user_data_updated">User data updated</string>
     <string name="user_data_added">User data added</string>
     <string name="personal_info">Personal information</string>
-    <string name="complete_registration">Complete_registration</string>
+    <string name="complete_registration">Complete registration</string>
+    <string name="user_added">User data added, please complete registration</string>
+    <string name="login">Login</string>
+    <string name="change_user">Change user</string>
 
 
     <array name="Ukraine">
